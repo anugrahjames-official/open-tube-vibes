@@ -27,7 +27,7 @@ const ShortsSection = ({ shorts }: ShortsSectionProps) => {
       </div>
       
       <div className="grid grid-cols-2 gap-2 overflow-x-auto hide-scrollbar">
-        {shorts.map((short) => (
+        {shorts.map((short, index) => (
           <div key={short.id} className="relative w-full rounded-xl overflow-hidden">
             <div className="aspect-[9/16] relative">
               <img 
@@ -38,8 +38,8 @@ const ShortsSection = ({ shorts }: ShortsSectionProps) => {
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
                 <h3 className="text-white text-xs font-medium line-clamp-2">{short.title}</h3>
               </div>
-              {/* Overlay text on shorts */}
-              {short.id % 2 === 0 ? (
+              {/* Overlay text on shorts - using index instead of id for modulo operation */}
+              {index % 2 === 0 ? (
                 <div className="absolute bottom-12 left-2 text-white">
                   <div className="bg-black/50 px-2 py-1 text-xs mb-1">BREAKING NEWS:</div>
                   <div className="text-xs">Not enough devs</div>
