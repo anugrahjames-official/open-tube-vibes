@@ -4,10 +4,21 @@ import Header from '@/components/Header';
 import SearchBar from '@/components/SearchBar';
 import VideoGrid from '@/components/VideoGrid';
 import FeaturedVideos from '@/components/FeaturedVideos';
+import CategoryChips from '@/components/CategoryChips';
+import ShortsSection from '@/components/ShortsSection';
+import BottomNav from '@/components/BottomNav';
 import { dummyVideos, featuredVideos, recentVideos } from '@/data/dummyData';
 
 const Index = () => {
   const [searchResults, setSearchResults] = useState<typeof dummyVideos | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState('all');
+
+  // Create a dummy shorts array from the existing videos
+  const shortsVideos = dummyVideos.slice(0, 4).map(video => ({
+    ...video,
+    isShort: true,
+    duration: '0:30'
+  }));
 
   const handleSearch = (query: string) => {
     const results = dummyVideos.filter(
@@ -19,20 +30,38 @@ const Index = () => {
     setSearchResults(results);
   };
 
+  const handleCategorySelect = (category: string) => {
+    setSelectedCategory(category);
+    if (category === 'all') {
+      setSearchResults(null);
+      return;
+    }
+    
+    const results = dummyVideos.filter(
+      video => video.tags.some(tag => tag.toLowerCase() === category.toLowerCase())
+    );
+    setSearchResults(results);
+  };
+
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground">
+    <div className="min-h-screen flex flex-col bg-background text-foreground pb-20">
       <Header />
       
-      <main className="flex-1 container mx-auto px-4 py-6 space-y-8">
-        <div className="flex justify-center">
+      <main className="flex-1 px-4 py-3 space-y-6">
+        <div className="sticky top-14 z-30 -mx-4 px-4 py-2 bg-background">
+          <CategoryChips onCategorySelect={handleCategorySelect} />
+        </div>
+        
+        <div className="flex justify-center sm:px-4">
           <SearchBar onSearch={handleSearch} className="w-full max-w-3xl" />
         </div>
         
         {searchResults ? (
           <VideoGrid 
             videos={searchResults} 
-            title={`Search Results (${searchResults.length})`} 
-            emptyMessage="No videos found matching your search"
+            title={`${selectedCategory !== 'all' ? selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1) + ' - ' : ''}Search Results (${searchResults.length})`} 
+            emptyMessage={`No videos found ${selectedCategory !== 'all' ? 'in ' + selectedCategory : ''}`}
+            layout="list"
           />
         ) : (
           <>
@@ -42,18 +71,16 @@ const Index = () => {
               </section>
             )}
             
+            <ShortsSection shorts={shortsVideos} />
+            
             <section aria-label="Recent Videos">
-              <VideoGrid videos={recentVideos} title="Recent Videos" />
+              <VideoGrid videos={recentVideos} layout="list" />
             </section>
           </>
         )}
       </main>
       
-      <footer className="mt-auto py-6 border-t border-border">
-        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          <p>© 2025 OpenTube - A Progressive Web App for Video Sharing</p>
-        </div>
-      </footer>
+      <BottomNav />
     </div>
   );
 };

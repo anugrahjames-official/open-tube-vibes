@@ -7,13 +7,15 @@ interface VideoGridProps {
   title?: string;
   emptyMessage?: string;
   className?: string;
+  layout?: 'grid' | 'list';
 }
 
 const VideoGrid = ({ 
   videos, 
   title, 
   emptyMessage = "No videos found", 
-  className = "" 
+  className = "",
+  layout = 'grid'
 }: VideoGridProps) => {
   return (
     <div className={`space-y-4 ${className}`}>
@@ -24,9 +26,12 @@ const VideoGrid = ({
           {emptyMessage}
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className={layout === 'grid' 
+          ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" 
+          : "flex flex-col gap-4"
+        }>
           {videos.map((video) => (
-            <VideoCard key={video.id} video={video} />
+            <VideoCard key={video.id} video={video} variant={layout === 'list' ? 'list' : 'default'} />
           ))}
         </div>
       )}

@@ -67,6 +67,16 @@
   background: hsl(var(--muted-foreground));
 }
 
+/* Hide scrollbars but keep functionality */
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
 /* Video card hover effect */
 .video-card {
   transition: transform 0.2s ease-in-out;
