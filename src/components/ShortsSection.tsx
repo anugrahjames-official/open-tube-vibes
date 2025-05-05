@@ -1,13 +1,37 @@
 
-import { MoreVertical } from 'lucide-react';
+import { useState } from 'react';
+import { MoreVertical, Camera } from 'lucide-react';
 import { Video } from '@/data/dummyData';
+import { Button } from '@/components/ui/button';
+import CapacitorService from '@/services/CapacitorService';
+import { useToast } from '@/hooks/use-toast';
 
 interface ShortsSectionProps {
   shorts: Video[];
 }
 
 const ShortsSection = ({ shorts }: ShortsSectionProps) => {
+  const { toast } = useToast();
+  const [isNative] = useState(CapacitorService.isNative());
+  
   if (!shorts.length) return null;
+  
+  const handleAddShort = async () => {
+    if (isNative) {
+      const image = await CapacitorService.takePicture();
+      if (image) {
+        toast({
+          title: "Short created",
+          description: "Your short was uploaded successfully",
+        });
+      }
+    } else {
+      toast({
+        title: "Camera feature",
+        description: "This feature works best in the native app",
+      });
+    }
+  };
   
   return (
     <section className="mb-6">
@@ -21,14 +45,27 @@ const ShortsSection = ({ shorts }: ShortsSectionProps) => {
           </div>
           <h2 className="text-lg font-bold">Shorts</h2>
         </div>
-        <button aria-label="More options" className="p-1 rounded-full">
-          <MoreVertical className="h-5 w-5" />
-        </button>
+        <div className="flex items-center gap-2">
+          <Button onClick={handleAddShort} variant="ghost" className="p-1 rounded-full flex items-center gap-1">
+            <Camera className="h-4 w-4" />
+            {isNative && <span className="text-xs">Create</span>}
+          </Button>
+          <button aria-label="More options" className="p-1 rounded-full">
+            <MoreVertical className="h-5 w-5" />
+          </button>
+        </div>
       </div>
       
       <div className="grid grid-cols-2 gap-2 overflow-x-auto hide-scrollbar">
         {shorts.map((short, index) => (
-          <div key={short.id} className="relative w-full rounded-xl overflow-hidden">
+          <div 
+            key={short.id} 
+            className="relative w-full rounded-xl overflow-hidden active:opacity-80 touch-manipulation"
+            onClick={() => {
+              // Handle short click with native animations if available
+              console.log("Short clicked:", short.title);
+            }}
+          >
             <div className="aspect-[9/16] relative">
               <img 
                 src={short.thumbnailUrl} 

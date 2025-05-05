@@ -45,6 +45,15 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior: none;
+    touch-action: manipulation;
+    user-select: none;
+  }
+  
+  /* Improve touch interactions */
+  button, a {
+    @apply touch-manipulation;
   }
 }
 
@@ -84,4 +93,94 @@
 
 .video-card:hover {
   transform: translateY(-4px);
+}
+
+/* Native-like animations */
+@keyframes page-transition-in {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes page-transition-out {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+.page-enter {
+  animation: page-transition-in 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.page-exit {
+  animation: page-transition-out 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* iOS-like button tap effect */
+.ios-tap-effect {
+  transition: transform 0.1s, opacity 0.1s;
+}
+
+.ios-tap-effect:active {
+  transform: scale(0.97);
+  opacity: 0.8;
+}
+
+/* Native-like bottom bar */
+.native-bottom-bar {
+  box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Native-like toast animation */
+@keyframes toast-enter {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.native-toast {
+  animation: toast-enter 0.3s ease-out;
+}
+
+/* Add touch ripple effect */
+.touch-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.touch-ripple::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.3);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1);
+  transition: 0.5s;
+}
+
+.touch-ripple:active::after {
+  opacity: 1;
+  transform: scale(100);
+  transition: 0s;
 }

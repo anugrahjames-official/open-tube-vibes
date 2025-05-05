@@ -1,7 +1,8 @@
 
 import { formatDistanceToNow } from 'date-fns';
-import { MoreVertical } from 'lucide-react';
+import { MoreVertical, Share } from 'lucide-react';
 import { Video } from '@/data/dummyData';
+import CapacitorService from '@/services/CapacitorService';
 
 interface VideoCardProps {
   video: Video;
@@ -23,18 +24,28 @@ const VideoCard = ({ video, variant = 'default' }: VideoCardProps) => {
   const formatDuration = (duration: string) => {
     return duration.length < 5 ? duration : duration;
   };
+  
+  const handleShareVideo = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    CapacitorService.shareContent(
+      video.title,
+      `Check out this video: ${video.title}`,
+      `https://opentube-vibes.lovable.app/watch?v=${video.id}`
+    );
+  };
 
   return (
     <div 
       className={`video-card group cursor-pointer rounded-lg overflow-hidden ${
         isFeatured ? 'col-span-full md:col-span-2 md:row-span-2' : ''
-      } ${isList ? 'flex flex-row gap-3' : ''}`}
+      } ${isList ? 'flex flex-row gap-3' : ''} active:opacity-90 touch-manipulation`}
     >
       <div className={`relative ${isList ? 'w-40 flex-shrink-0' : 'w-full'} aspect-video overflow-hidden`}>
         <img 
           src={video.thumbnailUrl} 
           alt={video.title} 
           className="object-cover w-full h-full transition-transform group-hover:scale-105"
+          loading="lazy"
         />
         <div className="absolute bottom-1 right-1 bg-black bg-opacity-80 text-white text-xs px-1 py-0.5 rounded">
           {formatDuration(video.duration)}
@@ -49,6 +60,7 @@ const VideoCard = ({ video, variant = 'default' }: VideoCardProps) => {
                 src={video.uploader.avatarUrl} 
                 alt={video.uploader.name} 
                 className="w-9 h-9 rounded-full"
+                loading="lazy"
               />
             </div>
           )}
@@ -57,11 +69,17 @@ const VideoCard = ({ video, variant = 'default' }: VideoCardProps) => {
               <h3 className="font-medium text-sm line-clamp-2 mb-1 leading-tight">
                 {video.title}
               </h3>
-              {isList && (
-                <button className="flex-shrink-0 ml-2">
-                  <MoreVertical className="h-4 w-4" />
-                </button>
-              )}
+              <div className="flex-shrink-0">
+                {isList ? (
+                  <button onClick={handleShareVideo} className="ml-2">
+                    <Share className="h-4 w-4" />
+                  </button>
+                ) : (
+                  <button onClick={handleShareVideo} className="ml-2">
+                    <MoreVertical className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
             </div>
             <p className="text-muted-foreground text-xs">
               {video.uploader.name}

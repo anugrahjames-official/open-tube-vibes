@@ -11,7 +11,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@capacitor/camera": "^7.0.1",
+    "@capacitor/cli": "^7.2.0",
+    "@capacitor/core": "^7.2.0",
+    "@capacitor/push-notifications": "^7.0.1",
     "@hookform/resolvers": "^3.9.0",
+    "@ionic/pwa-elements": "^3.3.0",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-aspect-ratio": "^1.1.0",

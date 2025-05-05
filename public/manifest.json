@@ -5,14 +5,51 @@
   "description": "A video sharing progressive web app",
   "start_url": "/",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#0F0F0F",
   "theme_color": "#FF0000",
+  "prefer_related_applications": true,
+  "related_applications": [
+    {
+      "platform": "play",
+      "id": "app.lovable.7e13424122d84f9a9850d09d1c35fe43"
+    },
+    {
+      "platform": "itunes",
+      "url": "https://apps.apple.com/app/open-tube-vibes"
+    }
+  ],
   "icons": [
     {
       "src": "/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Shorts",
+      "short_name": "Shorts",
+      "description": "View trending shorts",
+      "url": "/shorts",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Subscriptions",
+      "short_name": "Subs",
+      "description": "View your subscriptions",
+      "url": "/subscriptions",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "screenshots": [
     {
       "src": "/icon-512.png",
       "sizes": "512x512",
