@@ -27,8 +27,8 @@ const CategoryChips = ({ onCategorySelect }: CategoryChipsProps) => {
   };
 
   return (
-    <div className="flex overflow-x-auto py-2 px-1 hide-scrollbar gap-2">
-      <div className="flex-shrink-0 rounded-full bg-secondary p-2 flex items-center justify-center">
+    <div className="flex overflow-x-auto py-2 hide-scrollbar gap-2">
+      <div className="flex-shrink-0 rounded-full bg-[#272727] p-2 flex items-center justify-center">
         <span className="sr-only">Explore</span>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
           <circle cx="12" cy="12" r="10" />
@@ -43,7 +43,7 @@ const CategoryChips = ({ onCategorySelect }: CategoryChipsProps) => {
           className={`flex-shrink-0 px-3 py-1.5 rounded-full text-sm font-medium transition-colors whitespace-nowrap ${
             selectedCategory === category.id
               ? 'bg-white text-black'
-              : 'bg-secondary text-foreground'
+              : 'bg-[#272727] text-white'
           }`}
         >
           {category.name}
