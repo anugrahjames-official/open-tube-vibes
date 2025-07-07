@@ -1,4 +1,4 @@
-# Welcome to your Lovable project
+Just Experimental (Not so worth it)
 
 ## Project info
 
